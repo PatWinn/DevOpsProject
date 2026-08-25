@@ -1,0 +1,16 @@
+{
+  "name": "devopslab",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A production-like DevOps learning application",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js",
+    "test": "node --test",
+    "check": "npm test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
