@@ -1,13 +1,36 @@
 services:
   api:
     build: .
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
-      - "3000:3000"
+      - "${APP_PORT:-3000}:3000"
     environment:
       PORT: 3000
-      DATABASE_AVAILABLE: "true"
+      DATABASE_AVAILABLE: "${DATABASE_AVAILABLE:-true}"
+      DATABASE_URL: postgres://devopslab:devopslab@db:5432/devopslab
     healthcheck:
       test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:3000/health"]
       interval: 10s
       timeout: 3s
       retries: 3
+
+  db:
+    image: postgres:16-alpine
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    environment:
+      POSTGRES_DB: devopslab
+      POSTGRES_USER: devopslab
+      POSTGRES_PASSWORD: devopslab
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U devopslab -d devopslab"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  postgres_data:

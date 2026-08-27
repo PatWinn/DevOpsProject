@@ -8,9 +8,13 @@
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "test": "node --test",
+    "test:integration": "RUN_INTEGRATION=true node --test test/integration.test.js",
     "check": "npm test"
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "pg": "^8.23.0"
   }
 }
